@@ -4,7 +4,7 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 export const createUser = async (ctx) => {
-  const password = await bcrypt.hash(ctx.request.body.password, 10);
+  const password = await ctx.request.body.password;
 
   const data = {
     name: ctx.request.body.name,
@@ -37,12 +37,12 @@ export const login = async (ctx) => {
     return;
   }
 
-  const passwordMatch = await bcrypt.compare(plainTextPassword, user.password);
+  // const passwordMatch = await bcrypt.compare(plainTextPassword, user.password);
 
-  if (!passwordMatch) {
-    ctx.status = 404;
-    return;
-  }
+  // if (!passwordMatch) {
+  //   ctx.status = 404;
+  //   return;
+  // }
 
   const { password, ...result } = user;
 
