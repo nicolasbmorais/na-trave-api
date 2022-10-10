@@ -244,7 +244,6 @@ const games = [
     awayTeam: "bra",
   },
 ];
-
 const main = () =>
   prisma.game.createMany({
     data: games,

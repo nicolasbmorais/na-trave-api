@@ -4,7 +4,9 @@ const prisma = new PrismaClient();
 
 export const listGames = async (ctx) => {
   const currentDate = ctx.request.query.gameTime;
-  const where = currentDate ? {
+
+  const where = currentDate
+    ? {
         gameTime: {
           gte: currentDate,
           lt: formatISO(addDays(new Date(currentDate), 1)),
@@ -13,14 +15,12 @@ export const listGames = async (ctx) => {
     : {};
 
   try {
-    const games = await prisma.game.findMany({
-      where,
-    });
+    const games = await prisma.game.findMany({ where });
     ctx.body = games;
     ctx.status = 200;
   } catch (error) {
-    ctx.body = error;
-    ctx.status = 400;
     console.log(error);
+    ctx.body = error;
+    ctx.status = 500;
   }
 };
